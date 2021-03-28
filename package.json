@@ -1,10 +1,15 @@
 {
   "name": "js-game-deschamps",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "author": "jonathanBAugusto",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0"
   }
 }
