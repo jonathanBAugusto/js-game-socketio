@@ -16,7 +16,8 @@ function getRandomXYCollision(
             height: 1,
         }
 ) {
-    let position = false;
+    let position = false
+    let count = 0
     do {
         position = getRandomXY({
             minRangeX: minRangeX,
@@ -25,7 +26,7 @@ function getRandomXYCollision(
             maxRangeY: maxRangeY,
             width: width,
             height: height,
-        });
+        })
         if (listPositions) {
             Object.keys(listPositions).forEach((key) => {
                 if (
@@ -34,11 +35,11 @@ function getRandomXYCollision(
                 ) {
                     position = false;
                 }
-            });
+            })
         }
-    } while (!position);
+    } while (!position || count++ < 15)
 
-    return position;
+    return position
 }
 
 function getRandomXY(
