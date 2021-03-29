@@ -1,18 +1,25 @@
 import util from './utils.js'
+import Player from './player.js'
 
 const state = {
     players: {},
     fruits: {},
+    score: {},
     screen: {
         height: 10,
         width: 10,
     },
+    playerSize: {
+        height: 1,
+        width: 1,
+    }
+
 }
 
 const observers = []
 
 function start() {
-    return setInterval(addFruit, 5000)
+    return setInterval(addFruit, 250)
 }
 
 function stop(handle) {
@@ -27,19 +34,10 @@ function notifyAll(command) {
     observers.forEach(obs => obs(command))
 }
 
-const acceptedMoves = {
-    ArrowUp: (player) => {
-        player.y - 1 >= 0 && player.y--
-    },
-    ArrowDown: (player) => {
-        player.y + 1 < state.screen.height && player.y++
-    },
-    ArrowLeft: (player) => {
-        player.x - 1 >= 0 && player.x--
-    },
-    ArrowRight: (player) => {
-        player.x + 1 < state.screen.width && player.x++
-    },
+function setScreen(emlScreen) {
+    emlScreen.setAttribute('width', state.screen.width)
+    emlScreen.setAttribute('height', state.screen.height)
+    emlScreen.classList.remove('d-none')
 }
 
 function addPlayer(command) {
@@ -75,7 +73,21 @@ function removePlayer(command) {
     })
 }
 
+function haveSpace() {
+    const spaces = (state.screen.height / state.playerSize.height) * (state.screen.width / state.playerSize.width)
+    const qtdeElements = Object.keys({ ...state.fruits, ...state.players }).length
+
+    return spaces > qtdeElements
+}
+
 function addFruit(command) {
+    if (!haveSpace()) {
+        notifyAll({
+            type: 'none',
+        })
+        return
+    }
+
     let id = command && 'id' in command ? command.id : Math.floor(Math.random() * 999999)
     let x = 0
     let y = 0
@@ -113,10 +125,10 @@ function movePlayer(command) {
 
     const player = state.players[command.id]
     const keyPressed = command.keyPressed
-    const moveFunction = acceptedMoves[keyPressed]
+    const moveFunction = Player.acceptedMoves[keyPressed]
 
     if (player && moveFunction) {
-        moveFunction(player)
+        moveFunction(player, state)
         checkForFruitCollision(command.id)
     }
 
@@ -131,6 +143,7 @@ function checkForFruitCollision(playerId) {
             removeFruit({
                 id: fruitId
             })
+
         }
     }
 }
@@ -155,4 +168,5 @@ export default {
     subscribe,
     start,
     stop,
+    setScreen,
 }

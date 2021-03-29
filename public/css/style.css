@@ -1,0 +1,63 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: purple;
+}
+
+body {
+    padding: 20px;
+}
+
+#in-game {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "screen score";
+    grid-column-gap: 5px;
+}
+
+#screen {
+    border: 3px solid #ccc;
+    border-radius: 5px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    width: 100%;
+    height: auto;
+    grid-area: screen;
+    background-color: white;
+}
+
+#score {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    grid-area: score;
+}
+
+.d-none {
+    display: none;
+}
+
+@media (max-width: 1900px) {
+    #in-game {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "screen score";
+    }
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 600px) {
+    #in-game {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "screen score";
+        grid-column-gap: 5px;
+    }
+}
