@@ -1,8 +1,6 @@
-import game from "./game.js"
-import render from "./render.js"
 const socket = io()
 
-function init(screen, kListener) {
+function init(screen, kListener, game, render) {
     socket.on('connect', () => {
         const playerId = socket.id
         render.renderScreen(screen, { state: game.getState() }, requestAnimationFrame, playerId)
@@ -44,6 +42,11 @@ function init(screen, kListener) {
 
     socket.on('remove-fruit', command => {
         game.removeFruit(command)
+    })
+
+    socket.on('add-score', command => {
+        game.addScore(command.id)
+
     })
 
 }

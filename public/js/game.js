@@ -19,7 +19,7 @@ const state = {
 const observers = []
 
 function start() {
-    return setInterval(addFruit, 250)
+    //return setInterval(addFruit, 250)
 }
 
 function stop(handle) {
@@ -55,6 +55,7 @@ function addPlayer(command) {
     state.players[command.id] = {
         x: x,
         y: y,
+        score: 0,
     }
 
     notifyAll({
@@ -62,6 +63,7 @@ function addPlayer(command) {
         id: command.id,
         x: x,
         y: y,
+        score: 0,
     })
 }
 
@@ -121,6 +123,14 @@ function removeFruit(command) {
     })
 }
 
+function addScore(id) {
+    state.players[id].score += 10
+    notifyAll({
+        type: 'add-score',
+        id,
+    })
+}
+
 function movePlayer(command) {
 
     const player = state.players[command.id]
@@ -143,7 +153,6 @@ function checkForFruitCollision(playerId) {
             removeFruit({
                 id: fruitId
             })
-
         }
     }
 }
@@ -158,6 +167,7 @@ function getState() {
 
 export default {
     checkForFruitCollision,
+    addScore,
     addPlayer,
     movePlayer,
     removePlayer,
